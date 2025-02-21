@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 require_once "../include/initialize.php";
 require_once "../include/config.php";
 
+
 // Session/Auth check
 // if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false || $_SESSION["user_type"] === "user") {
 //     header("location: ../../login/index.php");
@@ -32,6 +33,12 @@ switch ($view) {
         $activity = 'active';
         break;
 
+        case 'edit_record':
+            $title = "Update Record - CemeterEase";
+            $content = 'tabs/edit_record.php';
+            $record = 'active';
+            break;
+
     default:
         $title     = "Dashboard - CemeterEase";
         $content   = 'dashboard.php';
@@ -39,4 +46,3 @@ switch ($view) {
 }
 // }
 require_once "template/admin_template.php";
-

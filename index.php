@@ -1,3 +1,6 @@
+<?php include 'edit_modal.php'; ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,12 +17,12 @@
         type="image/png">
 
 
-        <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/app.css">
-    <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/app-dark.css">
-    <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/iconly.css">
-    <link rel="stylesheet" href="<?php echo web_root; ?>assets/extensions/simple-datatables/style.css">
+    <link rel="stylesheet" crossorigin href="./assets/compiled/css/app.css">
+    <link rel="stylesheet" crossorigin href="./assets/compiled/css/app-dark.css">
+    <link rel="stylesheet" crossorigin href="./assets/compiled/css/iconly.css">
+    <link rel="stylesheet" href="assets/extensions/simple-datatables/style.css">
 
-    <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/table-datatable.css">
+    <link rel="stylesheet" crossorigin href="./assets/compiled/css/table-datatable.css">
 </head>
 
 <body>
@@ -71,8 +74,13 @@
                 </div>
                 <div class="sidebar-menu">
                     <ul class="menu">
-                            <!-- For Admin Dashboard sidebars -->
-                            <li class="sidebar-item <?php echo $dashboard; ?>"><a class="sidebar-link" href="<?php echo web_root; ?>admin/index.php"><i class="bi bi-grid-fill"></i><span>Dashboard</span></a></li>
+                        <li class="sidebar-title">Menu</li>
+                        <li class="sidebar-item active ">
+                            <a href="index.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -83,15 +91,131 @@
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>
-            <?php include($content); ?>
+            <div class="page-heading">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>DataTable</h3>
+                            <p class="text-subtitle text-muted">A sortable, searchable, paginated table without
+                                dependencies thanks to simple-datatables.</p>
+                        </div>
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <section class="section">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5 class="card-title">
+                                Simple Datatable
+                            </h5>
+                            <button type="submit" class="btn btn-primary ms-1">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">+ Add New Record</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <table id="table1" class="table table-striped">
+                                <?php
+                require_once "config/database.php";
+                $sql    = "SELECT * FROM tbl_users";
+                $result = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($result) > 0): ?>
+                                <thead>
+                                    <tr>
+                                        <th>ID #</th>
+                                        <th>Name</th>
+                                        <th>Date of Birth</th>
+                                        <th>Age</th>
+                                        <th>Sex</th>
+                                        <th>Home Address</th>
+                                        <th>Contacts</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($row = mysqli_fetch_array($result)):
+                        $nametrim     = str_replace(",", "</br>", $row["user_full_name"]);
+                        $birthtrim    = str_replace(",", "</br>", $row["date_of_birth"]);
+                        $current_year = date("Y");
+                        $birth_year   = date("Y", strtotime($row["date_of_birth"]));
+                        $age          = $current_year - $birth_year;
+                        $home_address =
+                            $row["region"] .
+                            ", " .
+                            $row["province"] .
+                            ",</br> " .
+                            $row["municipality"] .
+                            ", " .
+                            $row["barangay"] .
+                            ",</br> " .
+                            $row["zip_code"];
+                        $contact_information =
+                            $row["phone_number"] .
+                            ",</br> " .
+                            $row["email_address"] .
+                            ",</br> " .
+                            $row["telephone_number"];
+                    ?>
+                                    <tr>
+                                        <td><?php echo $row["user_id"]; ?></td>
+                                        <td><?php echo ucwords($nametrim); ?></td>
+                                        <td><?php echo $birthtrim; ?></td>
+                                        <td><?php echo $age; ?></td>
+                                        <td><?php echo ucwords($row["sex"]); ?></td>
+                                        <td><?php echo ucwords($home_address); ?></td>
+                                        <td><?php echo ucwords($contact_information); ?></td>
+                                        <td>
+                                            <div class="buttons">
+                                                <!-- Edit Button (Triggers Modal) -->
+                                                <button type="button" class="btn edit-btn" data-bs-toggle="modal"
+                                                    data-bs-target="#inlineForm"
+                                                    data-id="<?php echo $row['user_id']; ?>">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+
+                                                <!-- Delete Button -->
+                                                <form action="delete_user.php" method="POST"
+                                                    onsubmit="return confirm('Are you sure?');">
+                                                    <input type="hidden" name="user_id"
+                                                        value="<?php echo $row["user_id"]; ?>">
+                                                    <button type="submit" class="btn icon delete-btn"><i
+                                                            class="fas fa-trash"></i></button>
+                                                </form>
+
+                                                <!-- View Button -->
+                                                <button type="button" class="btn edit-btn" data-bs-toggle="modal"
+                                                    data-bs-target="#inlineForm"
+                                                    data-id="<?php echo $row['user_id']; ?>">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                                <?php endif; ?>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
-    <script src="<?php echo web_root; ?>assets/static/js/components/dark.js"></script>
-    <script src="<?php echo web_root; ?>assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="<?php echo web_root; ?>assets/compiled/js/app.js"></script>
-    <script src="<?php echo web_root; ?>assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
-    <script src="<?php echo web_root; ?>assets/static/js/pages/simple-datatables.js"></script>
-    <script src="<?php echo web_root; ?>assets/js/edit-regions.js"></script>
+    <script src="assets/static/js/components/dark.js"></script>
+    <script src="assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/compiled/js/app.js"></script>
+    <script src="assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+    <script src="assets/static/js/pages/simple-datatables.js"></script>
+    <script src="assets/js/edit-regions.js"></script>
+    <script src="assets/js/modal.js"></script>
+
 </body>
 
 </html>
