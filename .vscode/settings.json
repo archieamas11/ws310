@@ -8,11 +8,11 @@
         "**/Thumbs.db": true,
         ".vscode": true,
         "include": true,
-        "config": true
+        "assets": true
     },
     "hide-files.files": [
         ".vscode",
         "include",
-        "config"
+        "assets"
     ]
 }

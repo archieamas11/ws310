@@ -34,10 +34,8 @@
             <div class="card-body">
                 <table id="table1" class="table table-striped">
                     <?php
-                    require_once "../config/database.php";
-                    $sql    = "SELECT * FROM tbl_users";
-                    $result = mysqli_query($conn, $sql);
-                    if (mysqli_num_rows($result) > 0):
+                    $result = mysqli_query($mysqli, "SELECT * FROM tbl_users");
+                    if ($result) :
                     ?>
                     <thead>
                         <tr>
