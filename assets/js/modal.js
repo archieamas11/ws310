@@ -1,7 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Configuration
     const API_BASE_URL = window.location.origin + "/ws310";
-    const FETCH_USER_ENDPOINT = `${API_BASE_URL}/fetch_user.php`;
+    // const FETCH_USER_ENDPOINT = `${API_BASE_URL}/fetch_user.php`;
+    const FETCH_USER_ENDPOINT = `${API_BASE_URL}/admin/function/function.php?action=get`;
+
+    console.log(`API_BASE_URL: ${API_BASE_URL}`);
+    console.log(`FETCH_USER_ENDPOINT: ${FETCH_USER_ENDPOINT}`);
+
     
     // Helper function to set select value and handle async dropdown relationships
     async function setSelectValue(selectId, value) {

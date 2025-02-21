@@ -18,6 +18,7 @@
 
 
     <link rel="stylesheet" crossorigin href="./assets/compiled/css/app.css">
+    <link rel="stylesheet" crossorigin href="./assets/compiled/css/custom.css">
     <link rel="stylesheet" crossorigin href="./assets/compiled/css/app-dark.css">
     <link rel="stylesheet" crossorigin href="./assets/compiled/css/iconly.css">
     <link rel="stylesheet" href="assets/extensions/simple-datatables/style.css">
@@ -115,10 +116,12 @@
                             <h5 class="card-title">
                                 Simple Datatable
                             </h5>
-                            <button type="submit" class="btn btn-primary ms-1">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">+ Add New Record</span>
-                            </button>
+                            <form action="index.php?id=<?php echo $row['user_id']; ?>&page=edit_record" method="POST">
+                                        <button type="submit" class="btn btn-primary ms-1">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">+ Add New Record</span>
+                                        </button>
+                            </form>        
                         </div>
                         <div class="card-body">
                             <table id="table1" class="table table-striped">
@@ -158,9 +161,9 @@
                             $row["zip_code"];
                         $contact_information =
                             $row["phone_number"] .
-                            ",</br> " .
+                            "</br> " .
                             $row["email_address"] .
-                            ",</br> " .
+                            "</br> " .
                             $row["telephone_number"];
                     ?>
                                     <tr>
@@ -172,22 +175,26 @@
                                         <td><?php echo ucwords($home_address); ?></td>
                                         <td><?php echo ucwords($contact_information); ?></td>
                                         <td>
-                                            <div class="buttons">
-                                                <!-- Edit Button (Triggers Modal) -->
+                                            <div class="btn-group me-1 mb-1 dropstart">
+                                            <!-- Edit Button (Triggers Modal) -->
                                                 <button type="button" class="btn edit-btn" data-bs-toggle="modal"
                                                     data-bs-target="#inlineForm"
                                                     data-id="<?php echo $row['user_id']; ?>">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-
-                                                <!-- Delete Button -->
-                                                <form action="delete_user.php" method="POST"
+                                                
+                                                <!-- <form action="delete_user.php" method="POST"
                                                     onsubmit="return confirm('Are you sure?');">
                                                     <input type="hidden" name="user_id"
                                                         value="<?php echo $row["user_id"]; ?>">
                                                     <button type="submit" class="btn icon delete-btn"><i
                                                             class="fas fa-trash"></i></button>
-                                                </form>
+                                                </form> -->
+
+                                                <a href="delete_user.php?user_id=<?php echo $row["user_id"]; ?>"
+                                                    class="btn icon delete-btn"
+                                                    onclick="return confirm('Are you sure?')"><i
+                                                        class="fas fa-trash"></i></a>
 
                                                 <!-- View Button -->
                                                 <button type="button" class="btn edit-btn" data-bs-toggle="modal"

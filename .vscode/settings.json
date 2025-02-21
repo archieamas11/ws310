@@ -6,9 +6,13 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        "assets": true
+        ".vscode": true,
+        "include": true,
+        "config": true
     },
     "hide-files.files": [
-        "assets"
+        ".vscode",
+        "include",
+        "config"
     ]
 }

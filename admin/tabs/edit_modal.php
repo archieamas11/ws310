@@ -1,4 +1,3 @@
-<!--login form Modal -->
 <div class="modal fade modal-lg" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog" role="document">
@@ -9,13 +8,13 @@
                     <i data-feather="x"></i>
                 </button>
             </div>
-            <form action="update_user.php" method="POST">
+            <form class="record-form" id="editForm" action="function/function.php?action=update" method="POST">
                 <div class="modal-body">
+                    <input type="text" name="user_id" id="edit-user-id" placeholder="Empty" hidden>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Full Name</label>
-                                <input type="text" name="user_id" id="edit-user-id" placeholder="Empty">
                                 <input type="text" name="name" id="edit-name" required
                                     class="form-control form-control-lg" placeholder="Empty">
                             </div>
@@ -82,7 +81,7 @@
                                 <label>Region</label>
                                 <select id="edit-region" name="region_code" class="form-select form-control-lg"
                                     onchange="loadProvinces(this.value)">
-                                    <option value="">Loading regions...</option>
+                                    <option value="">Select region</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -141,3 +140,21 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const editButtons = document.querySelectorAll(".edit-btn");
+
+    editButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            let userId = this.getAttribute("data-id"); // Get user_id from button
+            let form = document.getElementById("editForm");
+
+            // Update form action dynamically
+            form.action = `function/function.php?user_id=${userId}&action=update`;
+
+            // Also update the hidden input field
+            document.getElementById("edit-user-id").value = userId;
+        });
+    });
+});
+</script>
