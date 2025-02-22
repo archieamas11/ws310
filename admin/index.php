@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 require_once "../include/initialize.php";
 require_once "../include/config.php";
 require_once "tabs/edit_modal.php";

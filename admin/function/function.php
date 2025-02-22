@@ -71,7 +71,7 @@ function update()
 {
     global $mysqli;
 
-    if (!isset($_POST['btn-submit'])) {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         return;
     }
 
@@ -141,15 +141,9 @@ function update()
 
 function add() {
     global $mysqli;
-    
-    if (!isset($_POST['btn-submit'])) {
-        return;
-    }
 
     $errors = array();
     $data = array();
-
-    $required_fields = array('first_name', 'last_name', 'dob', 'sex', 'civil_status', 'region_code', 'province_code', 'municipality_code', 'barangay_code', 'home_address', 'zip_code', 'father_name', 'mother_name');
 
     // Personal Data Validation
     $data['first_name'] = trim($_POST['first_name'] ?? '');
@@ -179,6 +173,10 @@ function add() {
     }
 
     $data['tin'] = trim($_POST['tin'] ?? '');
+    if (!empty($data['tin']) && !preg_match('/^\d{9,12}$/', $data['tin'])) {
+        $errors['tin'] = "TIN must be between 9 to 12 digits";
+    }
+
     $data['nationality'] = trim($_POST['nationality'] ?? '');
     if (empty($data['nationality'])) {
         $errors['nationality'] = "Nationality is required";
@@ -244,20 +242,24 @@ function add() {
     $data['mother_last_name'] = trim($_POST['mother_last_name'] ?? '');
 
     if (!empty($errors)) {
-        // Store errors in session
-        $_SESSION['form_errors'] = $errors;
-        $_SESSION['form_data'] = $data;
-        header("Location: " . $_SERVER['HTTP_REFERER']);
+        // Return errors as JSON
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'message' => 'Please correct the errors in the form.',
+            'errors' => $errors
+        ]);
         exit;
     }
 
     // If no errors, proceed with database insertion
     $sql = "INSERT INTO tbl_users (
         user_full_name, date_of_birth, sex, civil_status,
-        tax_identification_number, nationality, religion, place_of_birth, region, region_code, province, province_code, municipality, municipality_code,
-        barangay, barangay_code, zip_code, home_address, email_address, phone_number,
-        telephone_number, fathers_full_name, mothers_full_name, date_created
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        tax_identification_number, nationality, religion, place_of_birth, 
+        region_code, province_code, city_code, barangay_code,
+        zip_code, home_address, email_address, contact_number,
+        telephone_number, father_full_name, mother_full_name, date_created
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
     $stmt = $mysqli->prepare($sql);
     
@@ -276,13 +278,9 @@ function add() {
         $data['nationality'],
         $data['religion'],
         $data['place_of_birth'],
-        $data['region_name'],
         $data['region_code'],
-        $data['province_name'],
         $data['province_code'],
-        $data['city_name'],
         $data['city_code'],
-        $data['barangay_name'],
         $data['barangay_code'],
         $data['zipcode'],
         $data['home_address'],
@@ -293,15 +291,19 @@ function add() {
         $mothers_full_name
     );
 
+    header('Content-Type: application/json');
     if ($stmt->execute()) {
-        $_SESSION['success_message'] = "Record added successfully!";
-        unset($_SESSION['form_data']);
+        echo json_encode([
+            'success' => true,
+            'message' => 'Record added successfully!'
+        ]);
     } else {
-        $_SESSION['form_errors']['db_error'] = "Error adding record: " . $mysqli->error;
-        $_SESSION['form_data'] = $data;
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error adding record: ' . $mysqli->error
+        ]);
     }
 
     $stmt->close();
-    header("Location: " . $_SERVER['HTTP_REFERER']);
     exit;
 }

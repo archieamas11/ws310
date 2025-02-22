@@ -1,88 +1,107 @@
-function fillForm() {
+async function fillForm() {
     const formData = {
-        lname: "albarico",
-        fname: "archie",
-        mname: "amas",
+        last_name: "albarico",
+        first_name: "archie",
+        middle_name: "amas",
         dob: "2000-10-24",
-        pob: "vicente sotto memorial medical center",
+        place_of_birth: "vicente sotto memorial medical center",
         sex: "male",
-        status: "married", // Ensure this matches the option value
-        tax: "123456789",
+        civil_status: "married",
+        tin: "123456789",
         region: "0700000000",
         province: "0702200000",
         city: "0702232000",
         barangay: "0702232013",
         nationality: "filipino",
         religion: "roman catholic",
-        "email-address": "archiealbarico@gmail.com",
-        "phone-number": "09123456789",
-        tel: "021234567",
-        zip: "6046",
-        "complete-address": "Tunghaan, Minglanilla, Cebu",
-        flname: "albarico",
-        ffname: "mario",
-        fmname: "beduya",
-        mlname: "luna",
-        mfname: "jessie",
-        mmname: "amas"
+        email_address: "archiealbarico@gmail.com",
+        contact_number: "09123456789",
+        telephone_number: "021234567",
+        zipcode: "6046",
+        home_address: "Tunghaan, Minglanilla, Cebu",
+        father_last_name: "albarico",
+        father_first_name: "mario",
+        father_middle_name: "beduya",
+        mother_last_name: "luna",
+        mother_first_name: "jessie",
+        mother_middle_name: "amas"
     };
 
-    // Fill form fields
-    for (const key in formData) {
-        if (formData.hasOwnProperty(key)) {
-            const inputField = document.querySelector(`[name=${key}]`);
-            if (inputField) {
-                if (inputField.type === "radio") {
-                    document.querySelector(`[name="${key}"][value="${formData[key]}"]`).checked = true;
-                } else if (inputField.tagName === "SELECT") {
-                    inputField.value = formData[key];
+    // Utility functions
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+    
+    const setInputValue = (selector, value) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.value = value;
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    };
 
-                    // Manually dispatch change event if needed
-                    inputField.dispatchEvent(new Event("change"));
-                } else {
-                    inputField.value = formData[key];
-                }
+    const setRadioGroup = (name, value) => {
+        const selector = `input[name="${name}"]`;
+        const radios = document.querySelectorAll(selector);
+        let found = false;
+        
+        radios.forEach(radio => {
+            if (radio.value === value.toLowerCase()) {
+                radio.checked = true;
+                found = true;
+            }
+        });
+        
+        if (!found) console.warn(`Radio group ${name} missing option: ${value}`);
+    };
+
+    const setSelectValue = async (selector, value, wait = 0) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.value = value;
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+            await delay(wait);
+        }
+    };
+
+    // Fill standard input fields and radio buttons
+    Object.entries(formData).forEach(([key, value]) => {
+        const inputSelector = `input[name="${key}"]`;
+        const input = document.querySelector(inputSelector);
+        
+        if (input) {
+            input.type === 'radio' 
+                ? setRadioGroup(key, value) 
+                : setInputValue(inputSelector, value);
+        }
+    });
+
+    // Handle dependent dropdowns sequentially
+    await setSelectValue('#region', formData.region, 500);
+    await setSelectValue('#province', formData.province, 500);
+    await setSelectValue('#city', formData.city, 500);
+    await setSelectValue('#barangay', formData.barangay);
+
+    // Handle special dropdowns
+    const specialSelects = [
+        ['select[name="civil_status"]', formData.civil_status],
+        ['#nationality', formData.nationality],
+        ['#home_address', formData.home_address],
+        ['#zipcode', formData.zipcode],
+        ['#dob', formData.dob]
+    ];
+
+    specialSelects.forEach(([selector, value]) => {
+        setInputValue(selector, value);
+        
+        // Handle civil status special case
+        if (selector === 'select[name="civil_status"]') {
+            const otherStatusInput = document.getElementById('otherStatus');
+            if (otherStatusInput) {
+                otherStatusInput.style.display = 
+                    value === 'others' ? 'inline-block' : 'none';
             }
         }
-    }
+    });
 
-    // Manually handle 'status' select element (Civil Status dropdown)
-    const statusSelect = document.querySelector('[name="status"]');
-    if (statusSelect) {
-        // Set the value of the 'status' dropdown to the correct value
-        statusSelect.value = formData.status;
-
-        // Trigger the change event to ensure any dependent logic is applied
-        statusSelect.dispatchEvent(new Event("change"));
-
-        // Show/hide the "others" text input based on the selected value
-        const otherStatusInput = document.getElementById('otherStatus');
-        if (formData.status === "others") {
-            otherStatusInput.style.display = "inline-block"; // Show the input
-        } else {
-            otherStatusInput.style.display = "none"; // Hide the input
-        }
-    }
-
-    // Continue with region, province, city, barangay as before
-    const regionSelect = document.getElementById("region");
-    regionSelect.value = formData.region;
-    regionSelect.dispatchEvent(new Event("change"));
-
-    setTimeout(() => {
-        const provinceSelect = document.getElementById("province");
-        provinceSelect.value = formData.province;
-        provinceSelect.dispatchEvent(new Event("change"));
-
-        setTimeout(() => {
-            const citySelect = document.getElementById("city");
-            citySelect.value = formData.city;
-            citySelect.dispatchEvent(new Event("change"));
-
-            setTimeout(() => {
-                const barangaySelect = document.getElementById("barangay");
-                barangaySelect.value = formData.barangay;
-            }, 500);
-        }, 500);
-    }, 500);
+    // Add safety delay for final UI updates
+    await delay(100);
 }
