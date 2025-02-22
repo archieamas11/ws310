@@ -91,6 +91,7 @@
     <script src="<?php echo web_root; ?>assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
     <script src="<?php echo web_root; ?>assets/static/js/pages/simple-datatables.js"></script>
     <script src="<?php echo web_root; ?>assets/js/edit-regions.js"></script>
+    <script src="<?php echo web_root; ?>assets/js/regions.js"></script>
     <script src="<?php echo web_root; ?>assets/js/modal.js"></script>
 
 </body>
