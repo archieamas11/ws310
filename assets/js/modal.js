@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
             "edit-dob": data.date_of_birth,
             "edit-birth-place": data.place_of_birth,
             "edit-nationality": data.nationality,
+            "edit-religion": data.religion,
             "edit-tax-number": data.tax_identification_number,
             "edit-phone": data.phone_number,
             "edit-telephone": data.telephone_number,
@@ -163,11 +164,15 @@ document.addEventListener("DOMContentLoaded", function() {
     // Handle form submission - add if needed
     const editForm = document.getElementById("edit-user-form");
     if (editForm) {
-        editForm.addEventListener("submit", function() {
+        editForm.addEventListener("submit", function(event) {
+            const errors = [];
             // Add validation logic here if needed
             
+            if (errors.length > 0) {
+                event.preventDefault();
+                alert("Please fix the following errors: " + errors.join(", "));
+            }
             // Uncomment to prevent default form submission and handle via AJAX
-            // event.preventDefault();
             // const formData = new FormData(this);
             // // Submit form data via fetch
         });

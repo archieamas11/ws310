@@ -82,51 +82,15 @@
             }
         }
 
-        // Validate Date of Birth (must be at least 18 years old)
-        if (empty($_POST["dob"])) {
-            $errors["dob"] = "Please enter your Date of Birth.";
-        } else {
-            $dob   = DateTime::createFromFormat('Y-m-d', $_POST["dob"]);
-            $today = new DateTime();
-            $age   = $today->diff($dob)->y;
-            if ($age < 18) {
-                $errors["dob"] = "You must be at least 18 years old.";
-            }
-        }
+        validateDob($_POST['dob'], 'dob', "You must be at least 18 years old.");
+        validateEmail($_POST['email_address'], 'email_address', "Please enter a valid email address.");
+        validateNationality($_POST['nationality'], 'nationality', "Nationality must not contain numbers.");
+        validateReligion($_POST['religion'], 'religion', "Religion must not contain numbers.");
+        validateTIN($_POST['tin'], 'tin', "TIN must be 9-12 digits only.");
+        validatePhoneNumber($_POST['contact_number'], 'contact_number', "Phone number must be a valid PH number (09XXXXXXXXX).");
+        validateTelephone($_POST['telephone_number'], 'telephone_number', "Telephone number must be a valid PH landline.");
+        validateZipCode($_POST['zipcode'], 'zipcode', "Zip Code must be exactly 4 digits.");
 
-        // Validate Tax Identification Number (TIN) (optional)
-        if (! empty($_POST["tin"]) && ! preg_match("/^\d{9,12}$/", $_POST["tin"])) {
-            $errors["tin"] = "TIN must be 9-12 digits only.";
-        }
-
-        // Validate Email (optional)
-        if (! empty($_POST["email_address"]) && ! filter_var($_POST["email_address"], FILTER_VALIDATE_EMAIL)) {
-            $errors["email_address"] = "Please enter a valid email address.";
-        }
-
-        // Validate Phone Number (optional, PH format 09XXXXXXXXX)
-        if (! empty($_POST["contact_number"]) && ! preg_match("/^09[0-9]{9}$/", $_POST["contact_number"])) {
-            $errors["contact_number"] = "Phone number must be a valid PH number (09XXXXXXXXX).";
-        } else if (empty($_POST["contact_number"])) {
-            $errors["contact_number"] = "Please enter your Phone Number.";
-        }
-
-        if (! empty($_POST["telephone_number"]) && ! preg_match("/^(0[2-9]\d{1,2}-?\d{6,7})$/", $_POST["telephone_number"])) {
-            $errors["telephone_number"] = "Telephone number must be a valid PH landline.";
-        }
-
-        // Validate Zip Code (optional, exactly 4 digits)
-        if (! empty($_POST["zipcode"]) && ! preg_match("/^\d{4}$/", $_POST["zipcode"])) {
-            $errors["zipcode"] = "Zip Code must be exactly 4 digits.";
-        }
-
-        // Validate Nationality and Religion (must not contain numbers)
-        if (! empty($_POST["nationality"]) && preg_match("/\d/", $_POST["nationality"])) {
-            $errors["nationality"] = "Nationality must not contain numbers.";
-        }
-        if (! empty($_POST["religion"]) && preg_match("/\d/", $_POST["religion"])) {
-            $errors["religion"] = "Religion must not contain numbers.";
-        }
 
         // If no errors, store data in database
         if (empty($errors)) {
