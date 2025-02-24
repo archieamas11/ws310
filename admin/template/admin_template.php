@@ -78,7 +78,7 @@
 
         foreach ($required_fields as $field => $label) {
             if (empty(trim($_POST[$field] ?? ''))) {
-                $errors[$field] = "Please enter/select your $label.";
+                $errors[$field] = "Please select your $label.";
             }
         }
 
@@ -88,7 +88,7 @@
         validateReligion($_POST['religion'], 'religion', "Religion must not contain numbers.");
         validateTIN($_POST['tin'], 'tin', "TIN must be 9-12 digits only.");
         validatePhoneNumber($_POST['contact_number'], 'contact_number', "Phone number must be a valid PH number (09XXXXXXXXX).");
-        validateTelephone($_POST['telephone_number'], 'telephone_number', "Telephone number must be a valid PH landline.");
+        validateTelephone($_POST['telephone_number'], 'telephone_number', "Invalid telephone number.");
         validateZipCode($_POST['zipcode'], 'zipcode', "Zip Code must be exactly 4 digits.");
 
 

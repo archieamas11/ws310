@@ -7,7 +7,7 @@ async function fillForm() {
         place_of_birth: "vicente sotto memorial medical center",
         sex: "male",
         civil_status: "married",
-        tin: "123456789",
+        tin: "028123456",
         region: "0700000000",
         province: "0702200000",
         city: "0702232000",

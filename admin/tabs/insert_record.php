@@ -183,7 +183,7 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="telephone_number" class="form-label label mt-3">Telephone Number</label>
-                            <input type="number" id="telephone_number" name="telephone_number" placeholder="e.g. 02-123456789" value="<?php echo htmlspecialchars($_POST['telephone_number'] ?? ''); ?>" class="form-control <?php echo (!empty($errors['telephone_number'])) ? 'is-invalid' : ''; ?>">
+                            <input type="tel" id="telephone_number" name="telephone_number" placeholder="e.g. 02-81234567 or 074-4425678" value="<?php echo htmlspecialchars($_POST['telephone_number'] ?? ''); ?>" class="form-control <?php echo (!empty($errors['telephone_number'])) ? 'is-invalid' : ''; ?>">
                             <span class="error-feedback text-danger"><?php echo $errors['telephone_number'] ?? ''; ?></span>
                         </div>
                     </div>

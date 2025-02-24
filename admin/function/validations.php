@@ -41,7 +41,7 @@
 
     function validateTelephone($telephone_number, $fieldName, $errorMessage) {
         global $errors;
-        if (! empty($telephone_number) && ! preg_match("/^(0[2-9]\d{1,2}-?\d{6,7})$/", $telephone_number)) {
+        if (!empty($telephone_number) && !preg_match("/^(\+?\d{1,4}[\s-]?)?(\(?\d{1,4}\)?[\s-]?)?\d{3,4}[\s-]?\d{3,4}$/", $telephone_number)) {
             $errors[$fieldName] = $errorMessage;
         }
     }
