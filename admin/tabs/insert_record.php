@@ -31,7 +31,7 @@
     <section class="section">
         <!-- <form class="record-form" action="function/function.php?action=add" method="POST"> -->
         <form action="index.php?page=insert" method="POST">
-            <div class="card">
+            <div class="card p-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title">Personal Data</h5>
                     <button class="btn btn-outline-secondary" type="button" onclick="fillForm()">Fill All Fields</button>
@@ -117,7 +117,7 @@
             </div>
 
 
-            <div class="card">
+            <div class="card p-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title">Home Address</h5>      
                 </div>
@@ -190,7 +190,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card p-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title">Parents Information <span class="text-muted">(Optional)</span></h5>      
                 </div>
