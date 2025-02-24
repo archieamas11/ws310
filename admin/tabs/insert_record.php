@@ -77,7 +77,7 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="civil_status" class="form-label label mt-3">Civil Status <span class="text-danger">*</span></label>
-                            <select class="form-select" aria-label="Default select example" name="civil_status" id="civil_status">
+                            <select aria-label="Default select example" name="civil_status" id="civil_status" class="form-select <?php echo (!empty($errors['civil_status'])) ? 'is-invalid' : ''; ?>">
                                 <option value="">Select an option</option>
                                 <option value="single" <?php echo ($_POST['civil_status'] ?? '') === 'single' ? 'selected' : ''; ?>>Single</option>
                                 <option value="married" <?php echo ($_POST['civil_status'] ?? '') === 'married' ? 'selected' : ''; ?>>Married</option>
