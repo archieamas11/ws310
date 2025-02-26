@@ -102,33 +102,50 @@ document.addEventListener("DOMContentLoaded", function() {
             "edit-home-address": data.home_address,
             "edit-zipcode": data.zip_code,
             "edit-father-name": data.fathers_full_name,
+            "edit-barangay-name": data.barangay,
+            "edit-region-name": data.region,
+            "edit-province-name": data.province,
+            "edit-municipality-name": data.municipality,
             "edit-mother-name": data.mothers_full_name
         };
         
+        // Populate text fields and trigger input event
         Object.entries(textFields).forEach(([id, value]) => {
-            setFormValue(id, value);
+            const element = document.getElementById(id);
+            if (element) {
+                element.value = value || '';
+                // Trigger input event to notify validation
+                element.dispatchEvent(new Event('input', { bubbles: true }));
+            } else {
+                console.warn(`Element with ID '${id}' not found`);
+            }
         });
         
         // Handle radio buttons for sex
         const maleRadio = document.getElementById("edit-sex-male");
         const femaleRadio = document.getElementById("edit-sex-female");
-        
         if (maleRadio && femaleRadio) {
             maleRadio.checked = data.sex === "male";
             femaleRadio.checked = data.sex === "female";
+            // Trigger change event on the checked radio
+            const checkedRadio = data.sex === "male" ? maleRadio : femaleRadio;
+            checkedRadio.dispatchEvent(new Event('change', { bubbles: true }));
         }
         
         // Handle civil status and conditional fields
         const statusSelect = document.getElementById("edit-status");
         const otherStatus = document.getElementById("otherStatus");
-        
         if (statusSelect) {
             statusSelect.value = data.civil_status || "";
-            
+            // Trigger change event for civil status
+            statusSelect.dispatchEvent(new Event('change', { bubbles: true }));
+
             if (otherStatus) {
                 if (data.civil_status === "others") {
                     otherStatus.style.display = "block";
                     otherStatus.value = data.other_status || "";
+                    // Trigger input event for otherStatus
+                    otherStatus.dispatchEvent(new Event('input', { bubbles: true }));
                 } else {
                     otherStatus.style.display = "none";
                 }
@@ -161,20 +178,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    // Handle form submission - add if needed
-    const editForm = document.getElementById("edit-user-form");
-    if (editForm) {
-        editForm.addEventListener("submit", function(event) {
-            const errors = [];
-            // Add validation logic here if needed
-            
-            if (errors.length > 0) {
-                event.preventDefault();
-                alert("Please fix the following errors: " + errors.join(", "));
-            }
-            // Uncomment to prevent default form submission and handle via AJAX
-            // const formData = new FormData(this);
-            // // Submit form data via fetch
-        });
+    // After all fields are populated, manually trigger form validation
+    const form = document.getElementById("editForm");
+    if (form) {
+        const validateForm = window.validateForm || form.validateForm;
+        if (typeof window.validateForm === 'function') {
+            window.validateForm();
+        } else {
+            console.warn("validateForm function not found");
+            // Fallback: Trigger input on all fields
+            form.querySelectorAll('input, select').forEach(element => {
+                element.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+        }
     }
 });

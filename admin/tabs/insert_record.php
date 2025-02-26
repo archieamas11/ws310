@@ -16,8 +16,8 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="<?php echo web_root; ?>pages/admin/index.php?page=dashboard">
-                                Dashboard
+                            <a href="index.php?page=dashboard">
+                                DataTable
                             </a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
@@ -115,8 +115,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="card p-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title">Home Address</h5>      

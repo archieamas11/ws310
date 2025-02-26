@@ -170,8 +170,7 @@
     <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/app.css">
     <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/app-dark.css">
     <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/iconly.css">
-    <link rel="stylesheet" href="<?php echo web_root; ?>assets/extensions/simple-datatables/style.css">
-
+    <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/extensions/simple-datatables/style.css">
     <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/table-datatable.css">
 </head>
 
@@ -248,4 +247,5 @@
     <script src="<?php echo web_root; ?>assets/js/regions.js"></script>
     <script src="<?php echo web_root; ?>assets/js/modal.js"></script>
     <script src="<?php echo web_root; ?>assets/js/fill.js"></script>
+    <script src="<?php echo web_root; ?>assets/js/validation.js"></script>
     <script>if (window.history.replaceState) { window.history.replaceState(null, null, window.location.href)}</script>

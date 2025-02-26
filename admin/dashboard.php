@@ -2,17 +2,16 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>DataTable</h3>
+                <h3>Data Table</h3>
                 <p class="text-subtitle text-muted">
-                    A sortable, searchable, paginated table without dependencies thanks to
-                    simple-datatables.
+                    A table of all users with their respective information.
                 </p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Dashboard</a>
+                            <a href="index.php">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
                             DataTable
@@ -39,14 +38,14 @@
                     ?>
                     <thead>
                         <tr>
-                            <th>ID #</th>
-                            <th>Name</th>
-                            <th>Date of Birth</th>
-                            <th>Age</th>
-                            <th>Sex</th>
-                            <th>Home Address</th>
-                            <th>Contacts</th>
-                            <th>Action</th>
+                            <th>📝 ID</th>
+                            <th>👨‍👩‍👧‍👦 Name</th>
+                            <th>🎂 Date of Birth</th>
+                            <th>📆 Age</th>
+                            <th>🚹 Sex</th>
+                            <th>🏠 Home Address</th>
+                            <th>📞 Contacts</th>
+                            <th>🔧 Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,19 +86,19 @@
                                 
                                 if (!empty($row["phone_number"])) {
                                     $contacts_html .= '<div class="contact-item">';
-                                    $contacts_html .= '<i class="fas fa-phone mr-2">  </i>' . $row["phone_number"];
+                                    $contacts_html .= '<i class="fa-solid fa-phone-volume"></i>' . $row["phone_number"];
                                     $contacts_html .= '</div>';
                                 }
                                 
                                 if (!empty($row["email_address"])) {
                                     $contacts_html .= '<div class="contact-item">';
-                                    $contacts_html .= '<i class="fas fa-envelope mr-2"></i>' . $row["email_address"];
+                                    $contacts_html .= '<i class="fa-solid fa-envelope-open-text"></i>' . $row["email_address"];
                                     $contacts_html .= '</div>';
                                 }
                                 
                                 if (!empty($row["telephone_number"])) {
                                     $contacts_html .= '<div class="contact-item">';
-                                    $contacts_html .= '<i class="fas fa-phone-alt mr-2"></i>' . $row["telephone_number"];
+                                    $contacts_html .= '<i class="fa-solid fa-voicemail"></i>' . $row["telephone_number"];
                                     $contacts_html .= '</div>';
                                 }
                                 
@@ -130,8 +129,10 @@
                                     </a>
 
                                     <!-- View Button -->
-                                    <button type="button" class="btn edit-btn" data-bs-toggle="modal"
-                                        data-bs-target="#inlineForm" data-id="<?php echo $row['user_id']; ?>">
+                                    <button type="button" class="btn view-btn" data-bs-toggle="modal"
+                                        data-bs-target="#viewForm" 
+                                        data-id="<?php echo $row['user_id']; ?>"
+                                        onclick="viewData(<?php echo $row['user_id']; ?>)">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
@@ -145,6 +146,57 @@
         </div>
     </section>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all view buttons
+    const viewButtons = document.querySelectorAll('.view-btn');
+    
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = this.getAttribute('data-id');
+            
+            // Make AJAX request to get user data
+            fetch('function/function.php?action=get', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'user_id=' + encodeURIComponent(userId)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Populate modal with data
+                document.getElementById('view_full_name').textContent = data.user_full_name ? data.user_full_name : 'N/A';
+                document.getElementById('view_dob').textContent = data.date_of_birth ? data.date_of_birth : 'N/A';
+                const dob = new Date(data.date_of_birth);
+                const age = new Date().getFullYear() - dob.getFullYear();
+                document.getElementById('view_age').textContent = age ? age : 'N/A';
+                document.getElementById('view_sex').textContent = data.sex ? data.sex : 'N/A';
+                document.getElementById('view_civil_status').textContent = data.civil_status ? data.civil_status : 'N/A';
+                document.getElementById('view_pob').textContent = data.place_of_birth ? data.place_of_birth : 'N/A';
+                document.getElementById('view_nationality').textContent = data.nationality ? data.nationality : 'N/A';
+                document.getElementById('view_religion').textContent = data.religion ? data.religion : 'N/A';
+                document.getElementById('view_tin').textContent = data.tax_identification_number ? data.tax_identification_number : 'N/A';
+                document.getElementById('view_phone').textContent = data.phone_number ? data.phone_number : 'N/A';
+                document.getElementById('view_telephone').textContent = data.telephone_number ? data.telephone_number : 'N/A';
+                document.getElementById('view_email').textContent = data.email_address ? data.email_address : 'N/A';
+                document.getElementById('view_region').textContent = data.region ? data.region : 'N/A';
+                document.getElementById('view_province').textContent = data.province ? data.province : 'N/A';
+                document.getElementById('view_municipality').textContent = data.municipality ? data.municipality : 'N/A';
+                document.getElementById('view_barangay').textContent = data.barangay ? data.barangay : 'N/A';
+                document.getElementById('view_address').textContent = data.home_address ? data.home_address : 'N/A';
+                document.getElementById('view_zip').textContent = data.zip_code ? data.zip_code : 'N/A';
+                document.getElementById('view_father').textContent = data.fathers_full_name ? data.fathers_full_name : 'N/A';
+                document.getElementById('view_mother').textContent = data.mothers_full_name ? data.mothers_full_name : 'N/A';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to load user data');
+            });
+        });
+    });
+});
+</script>
 
 <style>
     .contact-item {

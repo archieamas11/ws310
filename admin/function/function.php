@@ -94,9 +94,13 @@ function update()
     $telephone = htmlspecialchars(trim($_POST['telephone']));
     $email = htmlspecialchars(trim($_POST['email']));
     $region_code = htmlspecialchars(trim($_POST['region_code']));
+    $region_name = htmlspecialchars(trim($_POST['region_name']));
     $province_code = htmlspecialchars(trim($_POST['province_code']));
+    $province_name = htmlspecialchars(trim($_POST['province_name']));
     $municipality_code = htmlspecialchars(trim($_POST['municipality_code']));
+    $municipality_name = htmlspecialchars(trim($_POST['municipality_name']));
     $barangay_code = htmlspecialchars(trim($_POST['barangay_code']));
+    $barangay_name = htmlspecialchars(trim($_POST['barangay_name']));
     $home_address = htmlspecialchars(trim($_POST['home_address']));
     $zipcode = htmlspecialchars(trim($_POST['zipcode']));
     $father_name = htmlspecialchars(trim($_POST['father_name']));
@@ -115,9 +119,13 @@ function update()
             telephone_number = ?, 
             email_address = ?, 
             region_code = ?, 
+            region = ?,
             province_code = ?, 
+            province = ?,
             municipality_code = ?, 
+            municipality = ?,
             barangay_code = ?, 
+            barangay = ?,
             home_address = ?, 
             zip_code = ?, 
             fathers_full_name = ?, 
@@ -127,7 +135,7 @@ function update()
     $stmt = $mysqli->prepare($sql);
     if ($stmt) {
         $stmt->bind_param(
-            'sssssssssssssssssssi',
+            'sssssssssssssssssssssssi',
             $name,
             $dob,
             $sex,
@@ -140,9 +148,13 @@ function update()
             $telephone,
             $email,
             $region_code,
+            $region_name,
             $province_code,
+            $province_name,
             $municipality_code,
+            $municipality_name,
             $barangay_code,
+            $barangay_name,
             $home_address,
             $zipcode,
             $father_name,

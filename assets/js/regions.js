@@ -9,6 +9,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     const cityNameInput = document.getElementById("city_name");
     const barangayNameInput = document.getElementById("barangay_name");
 
+    if (!regionSelect || !provinceSelect || !citySelect || !barangaySelect || !regionNameInput || !provinceNameInput || !cityNameInput || !barangayNameInput) {
+        console.error("Error: Missing required elements");
+        return;
+    }
+
     const cache = { regions: {}, provinces: {}, cities: {}, barangays: {} };
 
     // Helper function to populate select options

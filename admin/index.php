@@ -2,7 +2,9 @@
 require_once "../include/initialize.php";
 require_once "../include/config.php";
 require_once "tabs/edit_modal.php";
+require_once "tabs/view_data.php";
 include 'function/validations.php';
+
 
 // Session/Auth check
 // if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false || $_SESSION["user_type"] === "user") {
