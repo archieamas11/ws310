@@ -1,14 +1,18 @@
 <div class="modal fade modal-xl" id="viewForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content p-5">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel33">View User Data</h4>
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h2 class="modal-title p-3" id="myModalLabel33">View User Data</h2>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i data-feather="x"></i>
                 </button>
-            </div>
+            </div> -->
             <div class="modal-body">
-                <div class="row gy-3">
+                <div class="row">
+                    <div class="modal-title">
+                        <h2>View User Data</h2>
+                        <p>This is the information of the selected user.</p>
+                    </div>
                     <div class="col-12 col-md-6 col-lg-4">
                         <p><strong>Full Name:</strong><br><span id="view_full_name"></span></p>
                         <p><strong>Date of Birth:</strong><br><span id="view_dob"></span></p>
@@ -47,41 +51,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    #viewForm .modal-content {
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        background: #f8f9fa;
-    }
-
-    #viewForm .modal-body {
-        padding: 2rem;
-        font-size: 1.05rem;
-    }
-
-    #viewForm .modal-body p {
-        margin-bottom: 1.2rem;
-        padding: 0.8rem 1.2rem;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        transition: all 0.2s ease;
-    }
-
-    #viewForm .modal-body p:hover {
-        transform: translateX(5px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    }
-
-    #viewForm span {
-        color: #6c757d;
-        font-weight: 400;
-    }
-
-    #viewForm .modal-footer {
-        border-top: 2px solid #dee2e6;
-        padding: 1.5rem 2rem;
-    }
-</style>

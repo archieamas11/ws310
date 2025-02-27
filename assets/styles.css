@@ -1,0 +1,29 @@
+    #viewForm .modal-content, #inlineForm .modal-content {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        background: #f8f9fa;
+    }
+
+    #viewForm .modal-body, #inlineForm .modal-body {
+        padding: 2rem;
+    }
+
+    #viewForm .modal-body .col-12 p {
+        margin-bottom: 1rem;
+        padding: 0.8rem 1rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
+    }
+
+    #viewForm .modal-body .col-12 p:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    #viewForm .col-12 span {
+        color: #6c757d;
+        font-weight: 400;
+    }

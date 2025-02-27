@@ -172,6 +172,7 @@
     <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/iconly.css">
     <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/extensions/simple-datatables/style.css">
     <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/compiled/css/table-datatable.css">
+    <link rel="stylesheet" crossorigin href="<?php echo web_root; ?>assets/styles.css">
 </head>
 
 <body>

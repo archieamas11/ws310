@@ -1,16 +1,14 @@
 <div class="modal fade modal-xl" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33">
     <div class="modal-dialog modal-dialog-centered modal-dialog" role="document">
-        <div class="modal-content p-5">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel33">Edit User </h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <i data-feather="x"></i>
-                </button>
-            </div>
+        <div class="modal-content">
             <form class="record-form" id="editForm" action="function/function.php?action=update" method="POST">
-                <div class="modal-body">
+                <div class="modal-body p-3">
                 <input type="text" name="user_id" id="edit-user-id" placeholder="Empty" hidden>
-                    <div class="row gy-3">
+                    <div class="row gy-3 p-3">
+                        <div class="modal-title">
+                            <h2>Edit User</h2>
+                            <p>Update user information. Click save changes when you're done.</p>
+                        </div>
                             <div class="col-12 col-md-4">
                                 <label>Full Name</label>
                                 <input type="text" name="name" id="edit-name" class="form-control form-control-lg" placeholder="Empty">

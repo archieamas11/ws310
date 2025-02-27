@@ -38,7 +38,7 @@
                     ?>
                     <thead>
                         <tr>
-                            <th>📝 ID</th>
+                            <th>📝 ID#</th>
                             <th>👨‍👩‍👧‍👦 Name</th>
                             <th>🎂 Date of Birth</th>
                             <th>📆 Age</th>
@@ -122,12 +122,33 @@
                                     </button>
 
                                     <!-- Delete Button -->
-                                    <a href="function/function.php?user_id=<?php echo $row['user_id']; ?>&action=delete" 
-                                        class="btn icon delete-btn" 
-                                        onclick="return confirm('Are you sure?')">
+                                    <!-- <a href="function/function.php?user_id=<?php echo $row['user_id']; ?>&action=delete" 
+                                        class="btn icon delete-btn" onclick="return confirm('Are you sure?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a> -->
+                                    <!-- Delete Button -->
+                                    <a href="#" class="btn icon delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" 
+                                        data-userid="<?php echo $row['user_id']; ?>">
                                         <i class="fas fa-trash"></i>
                                     </a>
-
+                                    <!-- Delete Confirmation Modal -->
+                                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete this record?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Delete</a>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- View Button -->
                                     <button type="button" class="btn view-btn" data-bs-toggle="modal"
                                         data-bs-target="#viewForm" 
@@ -197,6 +218,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var deleteModal = document.getElementById("deleteModal");
+    var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+    deleteModal.addEventListener("show.bs.modal", function(event) {
+        var button = event.relatedTarget;
+        var userId = button.getAttribute("data-userid");
+
+        // Update the delete link dynamically
+        confirmDeleteBtn.href = "function/function.php?user_id=" + userId + "&action=delete";
+    });
+});
+</script>
+
 
 <style>
     .contact-item {
