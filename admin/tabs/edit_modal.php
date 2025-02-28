@@ -86,7 +86,7 @@
                                 <select id="edit-region" name="region_code" class="form-select form-control-lg" onchange="loadProvinces(this.value)">
                                     <option value="">Select region</option>
                                 </select>
-                                <input type="hidden" name="region_name" id="edit-region-name" value="" placeholder="Empty">
+                                <input type="text" class="form-control form-control-lg" name="region_name" id="edit-region-name" value="" placeholder="Empty" readonly>
                                 <span class="error-feedback text-danger"></span>
                             </div>
                             <div class="col-12 col-md-4">
@@ -94,7 +94,7 @@
                                 <select id="edit-province" name="province_code" class="form-control form-control-lg" onchange="loadMunicipalities(this.value)">
                                     <option value="">Select region first</option>
                                 </select>
-                                <input type="hidden" name="province_name" id="edit-province-name" value="">
+                                <input type="text" class="form-control form-control-lg" name="province_name" id="edit-province-name" value="" placeholder="Empty" readonly>
                                 <span class="error-feedback text-danger"></span>
                             </div>
                             <div class="col-12 col-md-4">
@@ -102,7 +102,7 @@
                                 <select id="edit-municipality" name="municipality_code" class="form-control form-control-lg" onchange="loadBarangays(this.value)">
                                     <option value="">Select province first</option>
                                 </select>
-                                <input type="hidden" name="municipality_name" id="edit-municipality-name" value="">
+                                <input type="text" class="form-control form-control-lg" name="municipality_name" id="edit-municipality-name" value="" placeholder="Empty" readonly>
                                 <span class="error-feedback text-danger"></span>
                             </div>
                             <div class="col-12 col-md-4">
@@ -110,7 +110,7 @@
                                 <select id="edit-barangay" name="barangay_code" class="form-control form-control-lg">
                                     <option value="">Select municipality first</option>
                                 </select>
-                                <input type="hidden" name="barangay_name" id="edit-barangay-name" value="">
+                                <input type="text" class="form-control form-control-lg" name="barangay_name" id="edit-barangay-name" value="" placeholder="Empty" readonly>
                                 <span class="error-feedback text-danger"></span>
                             </div>
                             <div class="col-12 col-md-4">
@@ -161,4 +161,35 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    function setupToggle(inputId, selectId) {
+        const select = document.getElementById(selectId);
+        const input = document.getElementById(inputId);
+        
+        select.style.display = "none";
+        input.style.display = "block";
+
+        input.addEventListener("click", function () {
+            input.style.display = "none";
+            select.style.display = "block";
+            select.focus();
+            const event = new Event("mousedown");
+            select.dispatchEvent(event);
+        });
+
+        select.addEventListener("change", function () {
+            input.value = select.options[select.selectedIndex].text;
+            input.style.display = "block";
+            select.style.display = "none";
+        });
+    }
+
+    setupToggle("edit-region-name", "edit-region");
+    setupToggle("edit-province-name", "edit-province");
+    setupToggle("edit-municipality-name", "edit-municipality");
+    setupToggle("edit-barangay-name", "edit-barangay");
+});
+
 </script>

@@ -44,7 +44,7 @@
                             <th>📆 Age</th>
                             <th>🚹 Sex</th>
                             <th>🏠 Home Address</th>
-                            <th>📞 Contacts</th>
+                            <th><img width="20" height="20" src="https://img.icons8.com/3d-fluency/94/contacts.png" alt="contacts"/> Contacts</th>
                             <th>🔧 Action</th>
                         </tr>
                     </thead>
@@ -73,12 +73,12 @@
                                 $row["telephone_number"];
                         ?>
                         <tr>
-                            <td><?php echo $row["user_id"]; ?></td>
+                            <td style="text-align: center;"><?php echo $row["user_id"]; ?></td>
                             <td><?php echo ucwords($nametrim); ?></td>
-                            <td><?php echo $birthtrim; ?></td>
-                            <td><?php echo $age; ?></td>
-                            <td><?php echo ucwords($row["sex"]); ?></td>
-                            <td><?php echo ucwords($home_address); ?></td>
+                            <td style="text-align: center;"><?php echo $birthtrim; ?></td>
+                            <td style="text-align: center;"><?php echo $age; ?></td>
+                            <td style="text-align: center;"><?php echo ucwords($row["sex"]); ?></td>
+                            <td ><?php echo ucwords($home_address); ?></td>
                             <td>
                                 <?php
                                 // Format contact information with icons
@@ -86,7 +86,7 @@
                                 
                                 if (!empty($row["phone_number"])) {
                                     $contacts_html .= '<div class="contact-item">';
-                                    $contacts_html .= '<i class="fa-solid fa-phone-volume"></i>' . $row["phone_number"];
+                                    $contacts_html .= '<i class="fa-solid fa-square-phone"></i>' . $row["phone_number"];
                                     $contacts_html .= '</div>';
                                 }
                                 
@@ -98,15 +98,15 @@
                                 
                                 if (!empty($row["telephone_number"])) {
                                     $contacts_html .= '<div class="contact-item">';
-                                    $contacts_html .= '<i class="fa-solid fa-voicemail"></i>' . $row["telephone_number"];
+                                    $contacts_html .= '<i class="fa-solid fa-tty"></i>' . $row["telephone_number"];
                                     $contacts_html .= '</div>';
                                 }
                                 
                                 echo $contacts_html;
                                 ?>
                             </td>
-                            <td>
-                                <div class="btn-group me-1 mb-1 dropstart">
+                            <td style="text-align: center;">
+                                <div class="btn-group-vertical me-1 mb-1 dropstart">
                                     <!-- Edit Button -->
                                     <!-- <form action="index.php?id=<?php echo $row['user_id']; ?>&page=edit_record"
                                         method="POST">
@@ -117,7 +117,7 @@
 
                                     <button type="button" class="btn edit-btn" data-bs-toggle="modal"
                                         data-bs-target="#inlineForm"
-                                        data-id="<?php echo $row['user_id']; ?>">
+                                        data-id="<?php echo $row['user_id']; ?>" data-toggle="tooltip" data-placement="top" title="Edit data">
                                         <i class="fas fa-edit"></i>
                                     </button>
 
@@ -128,8 +128,8 @@
                                     </a> -->
                                     <!-- Delete Button -->
                                     <a href="#" class="btn icon delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" 
-                                        data-userid="<?php echo $row['user_id']; ?>">
-                                        <i class="fas fa-trash"></i>
+                                        data-userid="<?php echo $row['user_id']; ?>" data-toggle="tooltip" data-placement="top" title="Delete data">
+                                        <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                     <!-- Delete Confirmation Modal -->
                                     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -153,8 +153,9 @@
                                     <button type="button" class="btn view-btn" data-bs-toggle="modal"
                                         data-bs-target="#viewForm" 
                                         data-id="<?php echo $row['user_id']; ?>"
-                                        onclick="viewData(<?php echo $row['user_id']; ?>)">
-                                        <i class="fas fa-eye"></i>
+                                        onclick="viewData(<?php echo $row['user_id']; ?>)"
+                                        data-toggle="tooltip" data-placement="top" title="View data">
+                                        <i class="fa-regular fa-circle-question"></i>
                                     </button>
                                 </div>
                             </td>

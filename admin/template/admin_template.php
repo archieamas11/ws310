@@ -147,7 +147,7 @@
                 $zip_code, 
                 $fathers_full_name, 
                 $mothers_full_name);
-              
+                
                 if ($stmt->execute()) {
                     echo "";
                 } else {

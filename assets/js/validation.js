@@ -127,11 +127,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         // Specific validation for dropdown fields
-        if (id === 'edit-region' || id === 'edit-province' || id === 'edit-municipality' || id === 'edit-barangay') {
-            if (!value) {
-                return showError(input, 'Please select an option.');
-            }
-        }
+        // if (id === 'edit-region' || id === 'edit-province' || id === 'edit-municipality' || id === 'edit-barangay') {
+        //     if (!value) {
+        //         return showError(input, 'Please select an option.');
+        //     }
+        // }
         
         // Validate sex (radio buttons)
         if (name === 'sex') {
