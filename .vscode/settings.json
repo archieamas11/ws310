@@ -7,10 +7,12 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         ".vscode": true,
-        "include": true
+        "test": true,
+        "ws310.sql": true
     },
     "hide-files.files": [
         ".vscode",
-        "include"
+        "test",
+        "ws310.sql"
     ]
 }

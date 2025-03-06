@@ -1,47 +1,20 @@
 <?php
     $errors    = [];
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        function validate_name_fields(array $fields)
-        {
-            global $errors;
-            foreach ($fields as $field => $field_name) {
-                $value          = trim($_POST[$field] ?? '');
-                $is_middle_name = in_array($field, ['middle_name', 'mother_middle_name', 'father_middle_name', 'father_first_name', 'father_last_name', 'mother_first_name', 'mother_last_name']);
-                if (empty($value)) {
-                    if (! $is_middle_name) {
-                        $errors[$field] = "Please enter your $field_name.";
-                    }
-                } elseif (! preg_match("/^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/", $value)) {
-                    $errors[$field] = "$field_name can only contain letters and spaces.";
-                } elseif (! $is_middle_name && (strlen($value) < 2 || strlen($value) > 50)) {
-                    $errors[$field] = "$field_name must be between 2 and 50 characters.";
-                }
-            }
-        }
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {  
 
         // Validate multiple name fields at once
         validate_name_fields([
-            "last_name"           => "last name",
-            "first_name"          => "first name",
-            "middle_name"         => "middle name", 
-            "father_last_name"    => "father's last name",
-            "father_first_name"   => "father's first name",
-            "father_middle_name"  => "father's middle name",
-            "mother_last_name"    => "mother's last name",
-            "mother_first_name"   => "mother's first name",
-            "mother_middle_name"  => "mother's middle name",
+            "last_name"                => "last name",
+            "first_name"               => "first name",
+            "middle_name"              => "middle name", 
+            "father_last_name"         => "father's last name",
+            "father_first_name"        => "father's first name",
+            "father_middle_name"       => "father's middle name",
+            "mother_last_name"         => "mother's last name",
+            "mother_first_name"        => "mother's first name",
+            "mother_middle_name"       => "mother's middle name",
         ]);
-
-        function no_white_spaces(array $no_space_fields)
-        {
-            global $errors; 
-            foreach ($no_space_fields as $field => $field_label) {
-                if (! empty($_POST[$field]) && preg_match("/\s{2,}/", $_POST[$field])) {
-                    $errors[$field] = "$field_label should not contain 2 or more consecutive spaces.";
-                }
-            }
-        }
 
         // Call the function with field names as keys and labels as values
         no_white_spaces([
@@ -61,27 +34,6 @@
             "email_address"             => "Email Address",
         ]);
 
-        // Validate required fields
-        $required_fields = [
-            "contact_number"    => "Phone Number",
-            "place_of_birth"    => "Place of Birth",
-            "sex"               => "Gender",
-            "civil_status"      => "Civil Status",
-            "nationality"       => "Nationality",
-            "home_address"      => "Home Address",
-            "region_code"       => "Region",
-            "province_code"     => "Province",
-            "city_code"         => "City",
-            "barangay_code"     => "Barangay",
-            "zipcode"           => "Zip Code",
-        ];
-
-        foreach ($required_fields as $field => $label) {
-            if (empty(trim($_POST[$field] ?? ''))) {
-                $errors[$field] = "Please select your $label.";
-            }
-        }
-
         validateDob($_POST['dob'], 'dob', "You must be at least 18 years old.");
         validateEmail($_POST['email_address'], 'email_address', "Please enter a valid email address.");
         validateNationality($_POST['nationality'], 'nationality', "Nationality must not contain numbers.");
@@ -91,70 +43,9 @@
         validateTelephone($_POST['telephone_number'], 'telephone_number', "Invalid telephone number.");
         validateZipCode($_POST['zipcode'], 'zipcode', "Zip Code must be exactly 4 digits.");
 
-
         // If no errors, store data in database
         if (empty($errors)) {
-            // Set parameters and execute
-            $full_name                 = $_POST['first_name'] . ' ' . $_POST['middle_name'] . ' ' . $_POST['last_name'];
-            $date_of_birth             = $_POST['dob'];
-            $sex                       = $_POST['sex'];
-            $civil_status              = $_POST['civil_status'];
-            $tax_identification_number = $_POST['tin'];
-            $nationality               = $_POST['nationality'];
-            $religion                  = $_POST['religion'];
-            $place_of_birth            = $_POST['place_of_birth'];
-            $phone_number              = $_POST['contact_number'];
-            $email_address             = $_POST['email_address'];
-            $telephone_number          = $_POST['telephone_number'];
-            $region                    = $_POST['region_name'];
-            $region_code               = $_POST['region_code'];
-            $province                  = $_POST['province_name'];
-            $province_code             = $_POST['province_code'];
-            $municipality              = $_POST['city_name'];
-            $municipality_code         = $_POST['city_code'];
-            $barangay                  = $_POST['barangay_name'];
-            $barangay_code             = $_POST['barangay_code'];
-            $complete_address          = $_POST['home_address'];
-            $zip_code                  = $_POST['zipcode'];
-            $fathers_full_name         = $_POST['father_first_name'] . ' ' . $_POST['father_middle_name'] . ' ' . $_POST['father_last_name'];
-            $mothers_full_name         = $_POST['mother_first_name'] . ' ' . $_POST['mother_middle_name'] . ' ' . $_POST['mother_last_name'];
-
-            // Prepare and bind
-            $sql = "INSERT INTO tbl_users (user_full_name, date_of_birth, sex, civil_status, tax_identification_number, nationality, religion, place_of_birth, phone_number, email_address, telephone_number, region, region_code, province, province_code, municipality, municipality_code, barangay, barangay_code, home_address, zip_code, fathers_full_name, mothers_full_name, date_created) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-            $stmt = $mysqli->prepare($sql);
-            if($stmt){
-                $stmt->bind_param("sssssssssssssssssssssss", 
-                $full_name, 
-                $date_of_birth, 
-                $sex, 
-                $civil_status, 
-                $tax_identification_number, 
-                $nationality, 
-                $religion, 
-                $place_of_birth, 
-                $phone_number, 
-                $email_address, 
-                $telephone_number, 
-                $region, 
-                $region_code, 
-                $province, 
-                $province_code, 
-                $municipality, 
-                $municipality_code, 
-                $barangay, 
-                $barangay_code, 
-                $complete_address, 
-                $zip_code, 
-                $fathers_full_name, 
-                $mothers_full_name);
-                
-                if ($stmt->execute()) {
-                    echo "";
-                } else {
-                    echo "Error updating record: " . $mysqli->error;
-                }
-            $stmt->close();
-            }
+            add();
         }
     }
 ?>
@@ -249,4 +140,10 @@
     <script src="<?php echo web_root; ?>assets/js/modal.js"></script>
     <script src="<?php echo web_root; ?>assets/js/fill.js"></script>
     <script src="<?php echo web_root; ?>assets/js/validation.js"></script>
+    <script src="<?php echo web_root; ?>assets/js/input-select-toggle.js"></script>
+    <script src="<?php echo web_root; ?>assets/js/edit-handler.js"></script>
+    <script src="<?php echo web_root; ?>assets/js/user-details-modal.js"></script>
+    <script src="<?php echo web_root; ?>assets/js/delete-data-modal.js"></script>
+
+
     <script>if (window.history.replaceState) { window.history.replaceState(null, null, window.location.href)}</script>

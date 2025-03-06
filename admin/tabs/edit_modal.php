@@ -131,7 +131,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="bx bx-x d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Close</span>
                     </button>
@@ -144,52 +144,3 @@
         </div>
     </div>
 </div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const editButtons = document.querySelectorAll(".edit-btn");
-
-    editButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            let userId = this.getAttribute("data-id"); // Get user_id from button
-            let form = document.getElementById("editForm");
-
-            // Update form action dynamically
-            form.action = `function/function.php?user_id=${userId}&action=update`;
-
-            // Also update the hidden input field
-            document.getElementById("edit-user-id").value = userId;
-        });
-    });
-});
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    function setupToggle(inputId, selectId) {
-        const select = document.getElementById(selectId);
-        const input = document.getElementById(inputId);
-        
-        select.style.display = "none";
-        input.style.display = "block";
-
-        input.addEventListener("click", function () {
-            input.style.display = "none";
-            select.style.display = "block";
-            select.focus();
-            const event = new Event("mousedown");
-            select.dispatchEvent(event);
-        });
-
-        select.addEventListener("change", function () {
-            input.value = select.options[select.selectedIndex].text;
-            input.style.display = "block";
-            select.style.display = "none";
-        });
-    }
-
-    setupToggle("edit-region-name", "edit-region");
-    setupToggle("edit-province-name", "edit-province");
-    setupToggle("edit-municipality-name", "edit-municipality");
-    setupToggle("edit-barangay-name", "edit-barangay");
-});
-
-</script>

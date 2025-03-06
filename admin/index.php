@@ -3,7 +3,12 @@ require_once "../include/initialize.php";
 require_once "../include/config.php";
 require_once "tabs/edit_modal.php";
 require_once "tabs/view_data.php";
+require_once "tabs/delete_modal.php";
 include 'function/validations.php';
+include 'function/CRUD.php';
+include 'function/user-data.php';
+include 'function/function.php';
+include 'function/validate-fields.php';
 
 
 // Session/Auth check
@@ -13,14 +18,14 @@ include 'function/validations.php';
 // }
 
 // if (isset($_SESSION["user_type"]) && $_SESSION["user_type"] == "admin") {
-$content = 'dashboard.php';
+$content = 'UsersTable.php';
 
 $view = (isset($_GET['page']) && $_GET['page'] != '') ? $_GET['page'] : '';
 
 switch ($view) {
     case 'dashboard':
         $title     = "Dashboard";
-        $content   = 'dashboard.php';
+        $content   = 'UsersTable.php';
         $dashboard = 'active';
         break;
 
@@ -44,9 +49,9 @@ switch ($view) {
 
     default:
         $title     = "Dashboard";
-        $content   = 'dashboard.php';
+        $content   = 'UsersTable.php';
         $dashboard = 'active';
 }
 
 // }
-require_once "template/admin_template.php";
+require_once "template/AdminDashboard.php";

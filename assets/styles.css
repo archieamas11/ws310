@@ -27,4 +27,27 @@
         color: #6c757d;
         font-weight: 400;
     }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        gap: .5rem;
+    }
+
+    .contact-item i {
+        font-size: 16px;
+        width: 20px;
+        color: #666;
+    }
+
+    @media (max-width: 768px) {
+        .contact-item {
+            font-size: 14px;
+        }
+        
+        .contact-item i {
+            font-size: 14px;
+        }
+    }
     
